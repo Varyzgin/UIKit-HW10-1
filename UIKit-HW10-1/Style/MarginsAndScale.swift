@@ -7,16 +7,11 @@
 
 import UIKit
 
-enum Margins {
-    case small, medium, large
-
-    func value() -> CGFloat {
-        switch self {
-        case .small: return 1/2 * 20 * scaleMultiplier()
-        case .medium: return 2/3 * 20 * scaleMultiplier()
-        case .large: return 20 * scaleMultiplier()
-        }
-    }
+struct Margins {
+    static let XS: CGFloat = 1/4 * 20 * scaleMultiplier()
+    static let S: CGFloat = 1/2 * 20 * scaleMultiplier()
+    static let M: CGFloat = 2/3 * 20 * scaleMultiplier()
+    static let L: CGFloat = 20 * scaleMultiplier()
 }
 
 func scaleMultiplier() -> CGFloat {

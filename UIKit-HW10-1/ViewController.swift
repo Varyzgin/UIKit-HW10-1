@@ -32,26 +32,21 @@ class ViewController: UIViewController {
         }
     }
     private func setStorySection() -> NSCollectionLayoutSection {
-        // Sizes setting up
-//        let sectionViewWidth = UIScreen.main.bounds.width - 2 * Margins.large.value()
-//        
-//        let groupWidth: CGFloat = sectionViewWidth / 4
-//        let groupHeight = groupWidth * 1.5
-
-        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(80),
-                                               heightDimension: .absolute(104))
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                              heightDimension: .fractionalHeight(1))
-        
-        // Objects creating with sizes
+        let sectionViewWidth = UIScreen.main.bounds.width - 2 * Margins.L
+        // Item set up
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        // Group set up
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(sectionViewWidth / 4 + Margins.S), heightDimension: .absolute(sectionViewWidth * 11/32))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 1)
-        let section = NSCollectionLayoutSection(group: group)
+        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: Margins.XS, bottom: 0, trailing: Margins.XS)
 
-        // Objects setting up
-        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: Margins.small.value())
+        // Section set up
+        let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary // СКРОЛЛ ПО ГОРИЗОНТАЛИ
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: Margins.large.value(), bottom: 0, trailing: Margins.large.value())
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: Margins.L - Margins.XS, bottom: 0, trailing: Margins.L)
+        
         return section
         
     }

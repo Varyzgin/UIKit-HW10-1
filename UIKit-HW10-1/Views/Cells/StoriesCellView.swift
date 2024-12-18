@@ -24,12 +24,12 @@ class StoriesCellView : UICollectionViewCell, CellProtocol {
         $0.clipsToBounds = true
         $0.layer.cornerRadius = frame.width / 2
         return $0
-    }(UIImageView(frame: CGRect(x: 0, y: 0, width: 80, height: 80)))
+    }(UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: frame.width, height: frame.width))))
     
     lazy var authorLabel: UILabel = {
         $0.textAlignment = .center
         return $0
-    }(UILabel(frame: CGRect(x: 0, y: pictureImageView.frame.maxY + Margins.small.value(), width: frame.width, height: frame.height - pictureImageView.frame.maxY)))
+    }(UILabel(frame: CGRect(x: 0, y: pictureImageView.frame.maxY + Margins.XS, width: frame.width, height: scaleMultiplier() * 20)))
     
     func configure(with content: Stories) {
         pictureImageView.image = UIImage(named: content.pictureName)
