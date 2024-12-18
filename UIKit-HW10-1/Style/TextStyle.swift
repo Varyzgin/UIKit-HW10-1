@@ -7,16 +7,10 @@
 
 import UIKit
 
-enum TextStyle {
-    case megaHeader, header, description, subDescription, boldDescription
-    
-    func value() -> UIFont {
-        switch self {
-        case .megaHeader: return .systemFont(ofSize: 20 * scaleMultiplier(), weight: .black)
-        case .header: return .boldSystemFont(ofSize: 20 * scaleMultiplier())
-        case .boldDescription: return .boldSystemFont(ofSize: 16 * scaleMultiplier())
-        case .description: return .systemFont(ofSize: 16 * scaleMultiplier())
-        case .subDescription: return .systemFont(ofSize: 14 * scaleMultiplier())
-        }
-    }
+struct TextStyle {
+    static let S: UIFont = .systemFont(ofSize: 14 * scaleMultiplier())
+    static let M: UIFont = .systemFont(ofSize: 16 * scaleMultiplier())
+    static let L: UIFont = .boldSystemFont(ofSize: 16 * scaleMultiplier())
+    static let XL: UIFont = .boldSystemFont(ofSize: 20 * scaleMultiplier())
+    static let XXL: UIFont = .systemFont(ofSize: 20 * scaleMultiplier(), weight: .black)
 }

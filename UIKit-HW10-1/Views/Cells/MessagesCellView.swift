@@ -7,32 +7,35 @@
 
 import UIKit
 
-
 class MessagesCellView : UICollectionViewCell, CellProtocol {
     static let identifier: String = "MessagesCellView"
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .green
+        contentView.backgroundColor = ColorScheme.lightgray
+        contentView.layer.cornerRadius = 20
+        
+        contentView.addSubview(pictureImageView)
+        contentView.addSubview(textLabel)
     }
 
-//    lazy var pictureImageView = {
-//        $0.contentMode = .scaleAspectFill
-//        $0.clipsToBounds = true
-//        $0.layer.cornerRadius = frame.width / 2
-//        return $0
-//    }(UIImageView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.width)))
-//    
-//    lazy var authorLabel: UILabel = {
-//        return $0
-//    }(UILabel(frame: CGRect(x: 0, y: pictureImageView.frame.maxY + Margins.small.value(), width: frame.width, height: frame.height - pictureImageView.frame.maxY)))
+    lazy var pictureImageView = {
+        $0.contentMode = .scaleAspectFill
+        $0.clipsToBounds = true
+        $0.layer.cornerRadius = 20
+        return $0
+    }(UIImageView(frame: CGRect(x: Margins.S, y: Margins.S, width: frame.height - 2 * Margins.S, height: frame.height - 2 * Margins.S)))
     
-    func configure(with content: Stories) {
-//        pictureImageView.image = UIImage(named: content.pictureName)
-//        authorLabel.text = content.authorName
-        
-//        contentView.addSubview(pictureImageView)
-//        contentView.addSubview(authorLabel)
+    lazy var textLabel: UILabel = {
+        $0.numberOfLines = 0
+        $0.textAlignment = .center
+        $0.font = TextStyle.S
+        return $0
+    }(UILabel(frame: CGRect(x: pictureImageView.frame.maxX + Margins.S, y: Margins.S, width: contentView.frame.maxX - pictureImageView.frame.maxX - 2 * Margins.S, height: frame.height - 2 * Margins.S)))
+    
+    func configure(with content: Messages) {
+        pictureImageView.image = UIImage(named: content.pictureName)
+        textLabel.text = content.messageText
     }
     
     required init?(coder: NSCoder) {

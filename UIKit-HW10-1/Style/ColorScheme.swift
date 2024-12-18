@@ -7,17 +7,12 @@
 
 import UIKit
 
-enum ColorScheme {
-    case red, green, gray, black, white, background
-    
-    func value() -> UIColor {
-        switch self {
-        case .red: return UIColor(red: 203/256, green: 22/256, blue: 63/256, alpha: 1)
-        case .green: return UIColor(red: 3/256, green: 191/256, blue: 111/256, alpha: 1)
-        case .gray: return UIColor(red: 117/256, green: 111/256, blue: 111/256, alpha: 1)
-        case .background: return  UIColor(red: 247/256, green: 247/256, blue: 247/256, alpha: 1)
-        case .black: return .black
-        case .white: return .white
-        }
-    }
+struct ColorScheme {
+    static let red = UIColor(red: 203/256, green: 22/256, blue: 63/256, alpha: 1)
+    static let green = UIColor(red: 3/256, green: 191/256, blue: 111/256, alpha: 1)
+    static let lightgray = UIColor(red: 217/256, green: 217/256, blue: 217/256, alpha: 1)
+    static let gray = UIColor(red: 117/256, green: 111/256, blue: 111/256, alpha: 1)
+    static let background = UIColor(red: 247/256, green: 247/256, blue: 247/256, alpha: 1)
+    static let black : UIColor = .black
+    static let white : UIColor = .white
 }

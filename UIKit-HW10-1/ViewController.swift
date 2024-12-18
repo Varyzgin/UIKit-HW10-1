@@ -21,14 +21,14 @@ class ViewController: UIViewController {
     
     private func setLayout() -> UICollectionViewCompositionalLayout {
         UICollectionViewCompositionalLayout { section, _ in
-//            switch section {
-//            case 0:
-//                return self.setStorySection()
-//            default:
-//                return self.setStorySection()
-//            }
-            return self.setStorySection()
-            
+            switch section {
+            case 0:
+                return self.setStorySection()
+            case 1:
+                return self.setMessagesSection()
+            default:
+                return self.setStorySection()
+            }
         }
     }
     private func setStorySection() -> NSCollectionLayoutSection {
@@ -38,17 +38,37 @@ class ViewController: UIViewController {
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         // Group set up
-        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(sectionViewWidth / 4 + Margins.S), heightDimension: .absolute(sectionViewWidth * 11/32))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(sectionViewWidth / 4), heightDimension: .absolute(sectionViewWidth * 11/32))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 1)
         group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: Margins.XS, bottom: 0, trailing: Margins.XS)
 
         // Section set up
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary // СКРОЛЛ ПО ГОРИЗОНТАЛИ
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: Margins.L - Margins.XS, bottom: 0, trailing: Margins.L)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: Margins.L - Margins.XS, bottom: 0, trailing: Margins.L - Margins.XS)
         
         return section
+    }
+    
+    func setMessagesSection() -> NSCollectionLayoutSection {
+        let sectionViewWidth = UIScreen.main.bounds.width - 2 * Margins.L
         
+        
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: Margins.XS, leading: 0, bottom: Margins.XS, trailing: 0)
+        
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(sectionViewWidth), heightDimension: .estimated(83 * scaleMultiplier())) // ОЖИДАЕМАЯ ВЫСОТА ОДНОГО ЭЛЕМЕНТА
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, repeatingSubitem: item, count: 2)
+        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: Margins.XS, bottom: 0, trailing: Margins.XS)
+        
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .groupPagingCentered
+        section.contentInsets = NSDirectionalEdgeInsets(top: Margins.L - Margins.XS, leading: Margins.L - Margins.M, bottom: Margins.XS, trailing: Margins.L - Margins.M)
+        
+        return section
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,8 +95,11 @@ extension ViewController: UICollectionViewDataSource {
         case 0: guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StoriesCellView.identifier, for: indexPath) as? StoriesCellView else { return UICollectionViewCell() }
             cell.configure(with: Stories.items()[indexPath.item])
             return cell
+        case 1: guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MessagesCellView.identifier, for: indexPath) as? MessagesCellView else { return UICollectionViewCell() }
+            cell.configure(with: Messages.items()[indexPath.item])
+            return cell
         default: guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MessagesCellView.identifier, for: indexPath) as? MessagesCellView else { return UICollectionViewCell() }
-            cell.configure(with: Stories.items()[indexPath.item])
+            cell.configure(with: Messages.items()[indexPath.item])
             return cell
         }
 //        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StoriesCellView.identifier, for: indexPath) as? StoriesCellView else { return UICollectionViewCell() }

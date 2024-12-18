@@ -7,13 +7,11 @@
 
 import UIKit
 
-
 class StoriesCellView : UICollectionViewCell, CellProtocol {
     static let identifier: String = "StoriesCellView"
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .red
         
         contentView.addSubview(pictureImageView)
         contentView.addSubview(authorLabel)
@@ -28,6 +26,7 @@ class StoriesCellView : UICollectionViewCell, CellProtocol {
     
     lazy var authorLabel: UILabel = {
         $0.textAlignment = .center
+        $0.font = TextStyle.M
         return $0
     }(UILabel(frame: CGRect(x: 0, y: pictureImageView.frame.maxY + Margins.XS, width: frame.width, height: scaleMultiplier() * 20)))
     
