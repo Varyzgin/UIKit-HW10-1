@@ -13,8 +13,8 @@ class FeedsCellView : UICollectionViewCell, CellProtocol {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        contentView.layer.cornerRadius = 20
-        contentView.backgroundColor = ColorScheme.background
+        layer.cornerRadius = 20 * scaleMultiplier()
+        backgroundColor = ColorScheme.background
         contentView.addSubviews(profileImageView, authorNameLabel, posterImageView, headerLabel, dateLabel, postTextLabel)
     }
     
@@ -31,12 +31,12 @@ class FeedsCellView : UICollectionViewCell, CellProtocol {
     
     private let screenWidth = UIScreen.main.bounds.width
     
-    private lazy var profileImageView = setupImageView(radius: 25)
-    private lazy var authorNameLabel = UILabel().setupLabel(textStyle: TextStyle.XL)
-    private lazy var posterImageView = setupImageView(radius: 20)
-    private lazy var headerLabel = UILabel().setupLabel(textStyle: TextStyle.L)
-    private lazy var dateLabel = UILabel().setupLabel(textStyle: TextStyle.S)
-    private lazy var postTextLabel = UILabel().setupLabel(textStyle: TextStyle.M)
+    private lazy var profileImageView = setupImageView(radius: 25 * scaleMultiplier())
+    private lazy var authorNameLabel = UILabel().setupLabel(textStyle: TextStyle.megaHeader)
+    private lazy var posterImageView = setupImageView(radius: 20 * scaleMultiplier())
+    private lazy var headerLabel = UILabel().setupLabel(textStyle: TextStyle.megaHeader)
+    private lazy var dateLabel = UILabel().setupLabel(textStyle: TextStyle.subDescription)
+    private lazy var postTextLabel = UILabel().setupLabel(textStyle: TextStyle.description)
     
     private func setupImageView(radius: CGFloat) -> UIImageView {
         let imageView = UIImageView()
@@ -52,11 +52,10 @@ class FeedsCellView : UICollectionViewCell, CellProtocol {
         let imageHeight = imageRatio * screenWidth
         
         NSLayoutConstraint.activate([
-            
             profileImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Margins.M),
             profileImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Margins.M),
-            profileImageView.widthAnchor.constraint(equalToConstant: 50),
-            profileImageView.heightAnchor.constraint(equalToConstant: 50),
+            profileImageView.widthAnchor.constraint(equalToConstant: 50 * scaleMultiplier()),
+            profileImageView.heightAnchor.constraint(equalToConstant: 50 * scaleMultiplier()),
             
             authorNameLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: Margins.M),
             authorNameLabel.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor),
@@ -78,9 +77,7 @@ class FeedsCellView : UICollectionViewCell, CellProtocol {
             postTextLabel.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: Margins.M),
             postTextLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Margins.M),
             postTextLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Margins.M),
-            
-            postTextLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: Margins.M)
-            
+            postTextLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Margins.M)
         ])
     }
     required init?(coder: NSCoder) {

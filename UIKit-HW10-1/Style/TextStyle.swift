@@ -8,9 +8,9 @@
 import UIKit
 
 struct TextStyle {
-    static let S: UIFont = .systemFont(ofSize: 14 * scaleMultiplier())
-    static let M: UIFont = .systemFont(ofSize: 16 * scaleMultiplier())
-    static let L: UIFont = .boldSystemFont(ofSize: 16 * scaleMultiplier())
-    static let XL: UIFont = .boldSystemFont(ofSize: 20 * scaleMultiplier())
-    static let XXL: UIFont = .systemFont(ofSize: 20 * scaleMultiplier(), weight: .black)
+    static let subDescription: UIFont = .systemFont(ofSize: 14 * scaleMultiplier())
+    static let description: UIFont = .systemFont(ofSize: 16 * scaleMultiplier())
+    static let header: UIFont = .boldSystemFont(ofSize: 16 * scaleMultiplier())
+    static let megaHeader: UIFont = .boldSystemFont(ofSize: 20 * scaleMultiplier())
+    static let posterTitle: UIFont = .systemFont(ofSize: 24 * scaleMultiplier(), weight: .black)
 }

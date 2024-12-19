@@ -11,7 +11,7 @@ class HeaderCollectionReusableView: UICollectionReusableView {
     static let identifier = "HeaderCollectionReusableView"
     
     private lazy var titleLabel = {
-        $0.font = TextStyle.XXL
+        $0.font = TextStyle.posterTitle
         return $0
     }(UILabel())
     

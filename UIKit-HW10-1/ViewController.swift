@@ -8,10 +8,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-    
-//    let data = Content(rawValue: 0)!.items()
-    
-    lazy var collectionView = {
+    private lazy var collectionView = {
         $0.dataSource = self
         $0.register(StoriesCellView.self, forCellWithReuseIdentifier: StoriesCellView.identifier)
         $0.register(MessagesCellView.self, forCellWithReuseIdentifier: MessagesCellView.identifier)
@@ -47,7 +44,7 @@ class ViewController: UIViewController {
         // Section set up
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary // СКРОЛЛ ПО ГОРИЗОНТАЛИ
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: Margins.L - Margins.XS, bottom: 0, trailing: Margins.L - Margins.XS)
+        section.contentInsets = NSDirectionalEdgeInsets(top: Margins.S, leading: Margins.L - Margins.XS, bottom: 0, trailing: Margins.L - Margins.XS)
         
         return section
     }
@@ -61,7 +58,7 @@ class ViewController: UIViewController {
         item.contentInsets = NSDirectionalEdgeInsets(top: Margins.XS, leading: 0, bottom: Margins.XS, trailing: 0)
         
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(sectionViewWidth + 2 * Margins.XS), heightDimension: .estimated(83 * scaleMultiplier())) // ОЖИДАЕМАЯ ВЫСОТА ОДНОГО ЭЛЕМЕНТА
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(sectionViewWidth + 2 * Margins.XS), heightDimension: .estimated(90 * scaleMultiplier())) // ОЖИДАЕМАЯ ВЫСОТА ОДНОГО ЭЛЕМЕНТА
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, repeatingSubitem: item, count: 2)
         group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: Margins.XS, bottom: 0, trailing: Margins.XS)
         
@@ -91,20 +88,18 @@ class ViewController: UIViewController {
         
         return section
     }
+    
     private func setFeedsSection() -> NSCollectionLayoutSection {
-        let sectionViewWidth = UIScreen.main.bounds.width - 2 * Margins.L
-        // Item set up
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        
         // Group set up
-        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(sectionViewWidth), heightDimension: .estimated(1000))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 1)
-//        group.contentInsets = NSDirectionalEdgeInsets(top: Margins.S, leading: 0, bottom: Margins.S, trailing: 0)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(100))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [.init(layoutSize: groupSize)]) /// Сюда добавляешь именно размеры группы
+                
+        group.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: nil, top: .fixed(Margins.XS), trailing: nil, bottom: .fixed(Margins.XS)) // нуждые отступы именно через `edgeSpacing` обрати внимание, а не `contentInsets`
+                
 
         // Section set up
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: Margins.L, leading: Margins.L, bottom: Margins.L, trailing: Margins.L)
+        section.contentInsets = NSDirectionalEdgeInsets(top: Margins.L - Margins.XS, leading: Margins.L, bottom: Margins.L - Margins.XS, trailing: Margins.L)
 
         return section
     }
@@ -118,6 +113,9 @@ class ViewController: UIViewController {
 
 
 }
+
+
+
 extension ViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         Content.allCases.count
@@ -147,27 +145,19 @@ extension ViewController: UICollectionViewDataSource {
         default:
             return UICollectionViewCell()
         }
-        //        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StoriesCellView.identifier, for: indexPath) as? StoriesCellView else { return UICollectionViewCell() }
-        //        cell.configure(with: Stories.items()[indexPath.item])
-        //        return cell
     }
-    
-    
-    
-    
-    // for header doesn't work for some reason
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.identifier, for: indexPath) as! HeaderCollectionReusableView
-        //        switch indexPath {
-        //        case 0: header.configure(with: "Stories")
-        //        case 1: header.configure(with: "Messages")
-        //        default: header.configure(with: "Announcements")
-        //        }
-        header.configure(with: "Stories")
-        return header
-    }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderIn section: Int) -> CGSize {
-        return CGSize(width: collectionView.frame.width - 2 * Margins.L, height: 50)
-    }
-    
+//    // for header doesn't work for some reason
+//    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+//        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.identifier, for: indexPath) as! HeaderCollectionReusableView
+//        //        switch indexPath {
+//        //        case 0: header.configure(with: "Stories")
+//        //        case 1: header.configure(with: "Messages")
+//        //        default: header.configure(with: "Announcements")
+//        //        }
+//        header.configure(with: "Stories")
+//        return header
+//    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderIn section: Int) -> CGSize {
+//        return CGSize(width: collectionView.frame.width - 2 * Margins.L, height: 50)
+//    }
 }

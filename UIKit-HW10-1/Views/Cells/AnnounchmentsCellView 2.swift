@@ -15,34 +15,7 @@ class AnnouncementsCellView : UICollectionViewCell, CellProtocol {
         
         addSubview(pictureImageView)
     }
-    
-    lazy var headerLabel: UILabel = {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.numberOfLines = 0
-        $0.font = TextStyle.XXL
-        $0.textColor = .white
-        return $0
-    }(UILabel())
-    
-    lazy var descriptionLabel: UILabel = {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.numberOfLines = 0
-        $0.font = TextStyle.S
-        $0.textColor = .white
-        return $0
-    }(UILabel())
 
-    lazy var pictureImageView = {
-        $0.contentMode = .scaleAspectFill
-        $0.clipsToBounds = true
-        $0.layer.cornerRadius = 20
-        
-        $0.addSubview(headerLabel)
-        $0.addSubview(descriptionLabel)
-
-        return $0
-    }(UIImageView(frame: contentView.frame))
-    
     func configure(with content: Announcements) {
         pictureImageView.image = UIImage(named: content.posterName)
         headerLabel.text = content.headerText
@@ -50,7 +23,21 @@ class AnnouncementsCellView : UICollectionViewCell, CellProtocol {
         
         setupConstraints()
     }
-    func setupConstraints() {
+    
+    private lazy var headerLabel = UILabel().setupLabel(textStyle: TextStyle.posterTitle, textColor: .white)
+    private lazy var descriptionLabel = UILabel().setupLabel(textStyle: TextStyle.description, textColor: .white)
+
+    private lazy var pictureImageView = {
+        $0.contentMode = .scaleAspectFill
+        $0.clipsToBounds = true
+        $0.layer.cornerRadius = 20 * scaleMultiplier()
+        
+        $0.addSubviews(headerLabel, descriptionLabel)
+        return $0
+    }(UIImageView(frame: contentView.frame))
+    
+    private func setupConstraints() {
+        activateConstraints(headerLabel, descriptionLabel)
         NSLayoutConstraint.activate([
             headerLabel.topAnchor.constraint(equalTo: pictureImageView.topAnchor, constant: Margins.M),
             headerLabel.leadingAnchor.constraint(equalTo: pictureImageView.leadingAnchor, constant: Margins.M),
@@ -61,9 +48,9 @@ class AnnouncementsCellView : UICollectionViewCell, CellProtocol {
             descriptionLabel.leadingAnchor.constraint(equalTo: pictureImageView.leadingAnchor, constant: Margins.M),
             descriptionLabel.trailingAnchor.constraint(equalTo: pictureImageView.trailingAnchor, constant: -Margins.M),
             descriptionLabel.bottomAnchor.constraint(equalTo: pictureImageView.bottomAnchor, constant: -Margins.M),
-
         ])
     }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
