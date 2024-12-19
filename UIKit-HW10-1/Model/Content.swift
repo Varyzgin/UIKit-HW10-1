@@ -33,7 +33,7 @@ struct Stories : Items {
     let pictureName : String
     let authorName : String
     
-    static func items() -> [Stories] {
+    public static func items() -> [Stories] {
         [
             Stories(pictureName: "picture1", authorName: "Author1"),
             Stories(pictureName: "picture2", authorName: "Author2"),
@@ -54,7 +54,7 @@ struct Messages : Items {
     let pictureName : String
     let messageText : String
     
-    static func items() -> [Messages] {
+    public static func items() -> [Messages] {
         [
             Messages(pictureName: "picture1", messageText: "A class can inherit methods, properties, and other characteristics from another class. When one class inherits from another, the inheriting class is known as a subclass, and the class it inherits from is known as its superclass."),
             Messages(pictureName: "picture2", messageText: "Classes in Swift can call and access methods, properties, and subscripts belonging to their superclass and can provide their own overriding versions of those methods, properties, and subscripts to refine or modify their behavior."),
@@ -71,7 +71,7 @@ struct Announcements : Items {
     let headerText : String
     let descriptionText : String
     
-    static func items() -> [Announcements] {
+    public static func items() -> [Announcements] {
         [
             Announcements(posterName: "poster1", headerText: "Hello", descriptionText: "Tandem inherits all of the properties and methods from Bicycle characteristics from the existing class"),
             Announcements(posterName: "poster2", headerText: "World", descriptionText: "Subclassing is the act of basing a new class on an existing class. The subclass inherits characteristics from the existing class, which you can then refine. You can also add new characteristics to the subclass."),
@@ -81,14 +81,18 @@ struct Announcements : Items {
 }
 
 struct Feeds : Items {
-    let photoName : String
-    let headerText : String
-    let descriptionText : String
+    let authorNameText: String
+    let profileImageName: String
+    let posterImageName: String
+    let date: String
+    let headerText: String
+    let descriptionText: String
     
-    static func items() -> [Feeds] {
+    public static func items() -> [Feeds] {
         [
-            Feeds(photoName: "photo1", headerText: "Hello", descriptionText: "Tandem inherits all of the properties and methods from Bicycle"),
-            Feeds(photoName: "photo2", headerText: "World", descriptionText: "Tandem inherits all of the properties and methods from Bicycle"),
+            Feeds( authorNameText: "Dmitry", profileImageName: "picture1", posterImageName: "poster1", date: "31.12.1924", headerText: "New photo", descriptionText: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in"),
+            Feeds( authorNameText: "Nobody", profileImageName: "picture2", posterImageName: "photo2", date: "23.09.2012", headerText: "I believe", descriptionText: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in"),
+            Feeds( authorNameText: "Nobody 2", profileImageName: "picture3", posterImageName: "poster2", date: "05.04.2008", headerText: "I can fly", descriptionText: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in")
         ]
     }
 }

@@ -16,6 +16,7 @@ class ViewController: UIViewController {
         $0.register(StoriesCellView.self, forCellWithReuseIdentifier: StoriesCellView.identifier)
         $0.register(MessagesCellView.self, forCellWithReuseIdentifier: MessagesCellView.identifier)
         $0.register(AnnouncementsCellView.self, forCellWithReuseIdentifier: AnnouncementsCellView.identifier)
+        $0.register(FeedsCellView.self, forCellWithReuseIdentifier: FeedsCellView.identifier)
         $0.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.identifier)
 
         return $0
@@ -24,14 +25,15 @@ class ViewController: UIViewController {
     private func setLayout() -> UICollectionViewCompositionalLayout {
         UICollectionViewCompositionalLayout { section, _ in
             switch section {
-            case 0: return self.setStorySection()
+            case 0: return self.setStoriesSection()
             case 1: return self.setMessagesSection()
             case 2: return self.setAnnouncementsSection()
-            default: return self.setStorySection()
+            case 3: return self.setFeedsSection()
+            default : fatalError()
             }
         }
     }
-    private func setStorySection() -> NSCollectionLayoutSection {
+    private func setStoriesSection() -> NSCollectionLayoutSection {
         let sectionViewWidth = UIScreen.main.bounds.width - 2 * Margins.L
         // Item set up
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
@@ -89,6 +91,24 @@ class ViewController: UIViewController {
         
         return section
     }
+    private func setFeedsSection() -> NSCollectionLayoutSection {
+        let sectionViewWidth = UIScreen.main.bounds.width - 2 * Margins.L
+        // Item set up
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        // Group set up
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(sectionViewWidth), heightDimension: .estimated(1000))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 1)
+//        group.contentInsets = NSDirectionalEdgeInsets(top: Margins.S, leading: 0, bottom: Margins.S, trailing: 0)
+
+        // Section set up
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: Margins.L, leading: Margins.L, bottom: Margins.L, trailing: Margins.L)
+
+        return section
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -121,8 +141,8 @@ extension ViewController: UICollectionViewDataSource {
         case 2: guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AnnouncementsCellView.identifier, for: indexPath) as? AnnouncementsCellView else { return UICollectionViewCell() }
             cell.configure(with: Announcements.items()[indexPath.item])
             return cell
-        case 3: guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AnnouncementsCellView.identifier, for: indexPath) as? AnnouncementsCellView else { return UICollectionViewCell() }
-            cell.configure(with: Announcements.items()[indexPath.item])
+        case 3: guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedsCellView.identifier, for: indexPath) as? FeedsCellView else { return UICollectionViewCell() }
+            cell.configure(with: Feeds.items()[indexPath.item])
             return cell
         default:
             return UICollectionViewCell()
