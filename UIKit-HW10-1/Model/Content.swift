@@ -41,6 +41,11 @@ struct Stories : Items {
             Stories(pictureName: "picture4", authorName: "Author4"),
             Stories(pictureName: "picture5", authorName: "Author5"),
             Stories(pictureName: "picture6", authorName: "Author6"),
+            Stories(pictureName: "picture5", authorName: "Author5"),
+            Stories(pictureName: "picture4", authorName: "Author4"),
+            Stories(pictureName: "picture3", authorName: "Author3"),
+            Stories(pictureName: "picture2", authorName: "Author2"),
+            Stories(pictureName: "picture1", authorName: "Author1"),
         ]
     }
 }
@@ -68,9 +73,9 @@ struct Announcements : Items {
     
     static func items() -> [Announcements] {
         [
-            Announcements(posterName: "poster1", headerText: "Hello", descriptionText: "Tandem inherits all of the properties and methods from Bicycle"),
-            Announcements(posterName: "poster2", headerText: "World", descriptionText: "Tandem inherits all of the properties and methods from Bicycle"),
-            Announcements(posterName: "poster3", headerText: "Nice?", descriptionText: "Tandem inherits all of the properties and methods from Bicycle"),
+            Announcements(posterName: "poster1", headerText: "Hello", descriptionText: "Tandem inherits all of the properties and methods from Bicycle characteristics from the existing class"),
+            Announcements(posterName: "poster2", headerText: "World", descriptionText: "Subclassing is the act of basing a new class on an existing class. The subclass inherits characteristics from the existing class, which you can then refine. You can also add new characteristics to the subclass."),
+            Announcements(posterName: "poster3", headerText: "Nice?", descriptionText: "World existing class, which you can"),
         ]
     }
 }

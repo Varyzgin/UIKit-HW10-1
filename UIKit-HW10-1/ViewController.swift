@@ -15,6 +15,8 @@ class ViewController: UIViewController {
         $0.dataSource = self
         $0.register(StoriesCellView.self, forCellWithReuseIdentifier: StoriesCellView.identifier)
         $0.register(MessagesCellView.self, forCellWithReuseIdentifier: MessagesCellView.identifier)
+        $0.register(AnnouncementsCellView.self, forCellWithReuseIdentifier: AnnouncementsCellView.identifier)
+        $0.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.identifier)
 
         return $0
     }(UICollectionView(frame: view.frame, collectionViewLayout: setLayout()))
@@ -22,12 +24,10 @@ class ViewController: UIViewController {
     private func setLayout() -> UICollectionViewCompositionalLayout {
         UICollectionViewCompositionalLayout { section, _ in
             switch section {
-            case 0:
-                return self.setStorySection()
-            case 1:
-                return self.setMessagesSection()
-            default:
-                return self.setStorySection()
+            case 0: return self.setStorySection()
+            case 1: return self.setMessagesSection()
+            case 2: return self.setAnnouncementsSection()
+            default: return self.setStorySection()
             }
         }
     }
@@ -38,7 +38,7 @@ class ViewController: UIViewController {
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         // Group set up
-        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(sectionViewWidth / 4), heightDimension: .absolute(sectionViewWidth * 11/32))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute((sectionViewWidth + Margins.S) / 4), heightDimension: .absolute(sectionViewWidth * 5/16))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 1)
         group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: Margins.XS, bottom: 0, trailing: Margins.XS)
 
@@ -59,17 +59,37 @@ class ViewController: UIViewController {
         item.contentInsets = NSDirectionalEdgeInsets(top: Margins.XS, leading: 0, bottom: Margins.XS, trailing: 0)
         
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(sectionViewWidth), heightDimension: .estimated(83 * scaleMultiplier())) // ОЖИДАЕМАЯ ВЫСОТА ОДНОГО ЭЛЕМЕНТА
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(sectionViewWidth + 2 * Margins.XS), heightDimension: .estimated(83 * scaleMultiplier())) // ОЖИДАЕМАЯ ВЫСОТА ОДНОГО ЭЛЕМЕНТА
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, repeatingSubitem: item, count: 2)
         group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: Margins.XS, bottom: 0, trailing: Margins.XS)
         
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPagingCentered
-        section.contentInsets = NSDirectionalEdgeInsets(top: Margins.L - Margins.XS, leading: Margins.L - Margins.M, bottom: Margins.XS, trailing: Margins.L - Margins.M)
+        section.contentInsets = NSDirectionalEdgeInsets(top: Margins.L, leading: Margins.L, bottom: 0, trailing: Margins.L)
         
         return section
     }
+    
+    func setAnnouncementsSection() -> NSCollectionLayoutSection {
+        let sectionViewWidth = UIScreen.main.bounds.width - 2 * Margins.L
+
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.8), heightDimension: .absolute(sectionViewWidth / 2))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 1)
+        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: Margins.XS, bottom: 0, trailing: Margins.XS)
+        
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .groupPaging
+        section.contentInsets = NSDirectionalEdgeInsets(top: Margins.L, leading: Margins.L - Margins.XS, bottom: 0, trailing: Margins.L - Margins.XS)
+        
+        return section
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -90,7 +110,7 @@ extension ViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//                let cell : UICollectionViewCell
+        //                let cell : UICollectionViewCell
         switch indexPath.section {
         case 0: guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StoriesCellView.identifier, for: indexPath) as? StoriesCellView else { return UICollectionViewCell() }
             cell.configure(with: Stories.items()[indexPath.item])
@@ -98,12 +118,36 @@ extension ViewController: UICollectionViewDataSource {
         case 1: guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MessagesCellView.identifier, for: indexPath) as? MessagesCellView else { return UICollectionViewCell() }
             cell.configure(with: Messages.items()[indexPath.item])
             return cell
-        default: guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MessagesCellView.identifier, for: indexPath) as? MessagesCellView else { return UICollectionViewCell() }
-            cell.configure(with: Messages.items()[indexPath.item])
+        case 2: guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AnnouncementsCellView.identifier, for: indexPath) as? AnnouncementsCellView else { return UICollectionViewCell() }
+            cell.configure(with: Announcements.items()[indexPath.item])
             return cell
+        case 3: guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AnnouncementsCellView.identifier, for: indexPath) as? AnnouncementsCellView else { return UICollectionViewCell() }
+            cell.configure(with: Announcements.items()[indexPath.item])
+            return cell
+        default:
+            return UICollectionViewCell()
         }
-//        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StoriesCellView.identifier, for: indexPath) as? StoriesCellView else { return UICollectionViewCell() }
-//        cell.configure(with: Stories.items()[indexPath.item])
-//        return cell
+        //        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StoriesCellView.identifier, for: indexPath) as? StoriesCellView else { return UICollectionViewCell() }
+        //        cell.configure(with: Stories.items()[indexPath.item])
+        //        return cell
     }
+    
+    
+    
+    
+    // for header doesn't work for some reason
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.identifier, for: indexPath) as! HeaderCollectionReusableView
+        //        switch indexPath {
+        //        case 0: header.configure(with: "Stories")
+        //        case 1: header.configure(with: "Messages")
+        //        default: header.configure(with: "Announcements")
+        //        }
+        header.configure(with: "Stories")
+        return header
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderIn section: Int) -> CGSize {
+        return CGSize(width: collectionView.frame.width - 2 * Margins.L, height: 50)
+    }
+    
 }

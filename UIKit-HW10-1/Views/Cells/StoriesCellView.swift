@@ -26,7 +26,7 @@ class StoriesCellView : UICollectionViewCell, CellProtocol {
     
     lazy var authorLabel: UILabel = {
         $0.textAlignment = .center
-        $0.font = TextStyle.M
+        $0.font = TextStyle.S
         return $0
     }(UILabel(frame: CGRect(x: 0, y: pictureImageView.frame.maxY + Margins.XS, width: frame.width, height: scaleMultiplier() * 20)))
     

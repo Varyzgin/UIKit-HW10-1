@@ -28,7 +28,6 @@ class MessagesCellView : UICollectionViewCell, CellProtocol {
     
     lazy var textLabel: UILabel = {
         $0.numberOfLines = 0
-        $0.textAlignment = .center
         $0.font = TextStyle.S
         return $0
     }(UILabel(frame: CGRect(x: pictureImageView.frame.maxX + Margins.S, y: Margins.S, width: contentView.frame.maxX - pictureImageView.frame.maxX - 2 * Margins.S, height: frame.height - 2 * Margins.S)))
